@@ -1,5 +1,6 @@
 //03/20/2020
-//will read the froot file from LNN_first.cc and then will do the kinematic calculation to calculate the missing mass for the tritium target or to calculate the BE for Lnn
+// will read the root file from  BORON_first.cc
+// will generate the errors and will do the kinematics for the missing Mass
 
 //
 #include <iostream>
@@ -13,14 +14,14 @@
 
 using namespace std;
 
-void lnn_second()
+void boron_second()
 {
   TChain *t1 = new TChain("ktree");
-  t1->Add("./output_root/LNN_first.root");
+  t1->Add("./output_root/BORON_first.root");
   double ent = t1->GetEntries();
   
   double me;// Mass of electron
-  double mt; // mass of target mass
+  double mt; // mass of target mass Boron target
   double mk; // mass of kaon
   // double ml;// mass of Lambda  recoil mass
   
@@ -69,36 +70,35 @@ void lnn_second()
   t1->SetBranchAddress("PHI1_2",&PHI1_2);
   
   me = 0.000511; //Mass of electron in GeV/ 
-  mt = 2.808921; //Mass of Proton GeV/
+  mt = 9.324511 ; //Mass of Carbon changed
   mk = 0.4937; 
-  // ml = 1.11568; // GeV
+  // m_Mg = 25.3123; // GeV recoilmass for 27_MG_L
  
-  //  sigma_e = 4.319*0.00025; //GEV
-  // sigma_ep = 2.218*0.00025; // GeV
-  //  sigma_pk = 1.823*0.00025;// GeV
-  //sigma_theta_eep = 0.011; // rad
-  //sigma_theta_ek = 0.003; // rad
-  // sigma_phi_epk = 0.003; // rad
-  
-  sigma_e =  4.319*0.0001;
+  // sigma_e =4.319*0.00025; //GEV
+  //  sigma_ep = 2.218*0.00025; // GeV
+  //sigma_pk = 1.823*0.00025;// GeV
+  // sigma_theta_eep = 0.011; // rad
+  // sigma_theta_ek = 0.011; // rad
+  // sigma_theta_ek = 0.011; // rad
+  sigma_e = 4.3190*0.000067;
   sigma_ep = 2.218*0.0001; // GeV
   sigma_pk = 1.823*0.0001;// GeV
-  
-  sigma_theta_eep = 0.0032; // rad  
-  sigma_theta_ek = 0.0032; // rad
-  sigma_phi_epk = 0.0045; // rad 
+
+  sigma_theta_eep = 0.0034; // rad  
+  sigma_theta_ek = 0.0034; // rad
+  sigma_phi_epk = 0.0048; // rad 
       
   double  A1; // to store some variables or the constansts
   double  B1; // to store some variables or the constansts
   double  C1; // to store some variables or the constansts
-  double  C2;//
+  double  C2;
   double  D1;
   double  D2;
   double  MM; //missing mass
 
   TH1F *h5 = new TH1F("h5","",50,2.0,2.4);
     
-  TFile *f2 = new TFile("./output_root/lnn_second.root","recreate");
+  TFile *f2 = new TFile("./output_root/boron_second.root","recreate");
   f2->cd();
   TTree *ttree = new TTree("ttree","generated data");
   ttree->Branch("delta_E", &delta_E,"delta_E/D");
@@ -151,10 +151,10 @@ void lnn_second()
       theta_ek_3 = THETA_K;
       phi_epk_3 = PHI1_2;          
       
-      //// Now include the uncertainty or include the error
+      //// Now lets include the uncertainty or include the error
       EE = EE + delta_E;     
       pep_3 = pep_3 + delta_pep;     
-      pk_3 = pk_3 + delta_pk;       
+      pk_3 = pk_3 + delta_pk;        
       
       theta_eep_3 = theta_eep_3 + delta_theta_eep;
       theta_ek_3 = theta_ek_3 + delta_theta_ek;
@@ -177,8 +177,8 @@ void lnn_second()
       
       MM  =sqrt(A1*A1 -(B1 - C1 - C2 + D2));
       MM = MM*1000;
-      MM = MM - 2994.814;
-     
+      MM = MM - 9508.5004; // changed
+    
       ttree->Fill();
       
     }

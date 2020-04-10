@@ -1,4 +1,5 @@
-// copied frm the MM_all.cc,, This code will read the lnn_second.root file and then will plot the BE for Lnn
+//04/09/2020
+//This code will read the lnn_second.root file and then will plot the BE for Lnn
 
 #include <iostream>
 #include <iomanip>
@@ -71,6 +72,8 @@ void BE_lnn()
   
   TF1 *f5 = new TF1("f5","gaus",-2.97,2.97);
   TCanvas *c5 =new TCanvas("c5","c5",600,600);
+  c5->SetCanvasSize(1300, 1050);// selected for publication
+  c5->SetWindowSize(800, 800);  
   c5->cd();
   h5->Draw();
   f5->SetLineWidth(2);
@@ -79,13 +82,13 @@ void BE_lnn()
   TLatex l5;
   l5.SetTextSize(0.025);
   
-  l5.DrawLatex(-40,400,Form("#color[2]{mean = %.6g}",f5->GetParameter(1)));  
-  l5.DrawLatex(-40,360,Form("#color[2]{#sigma = %.6g}",f5->GetParameter(2)));       
-  l5.DrawLatex(-40,320,Form("#Lambdann"));
-  l5.DrawLatex(-40,280,Form("#sigma_{E} = 1.0*10^{-4}  GeV"));
-  l5.DrawLatex(-40,240,Form("#sigma_{Pee'}, #sigma_{Pk} = 1.0*10^{-4}  GeV"));
-  l5.DrawLatex(-40,200,Form("#sigma_{#theta_{ee'}}, #sigma_{#theta_{ek}} = 3.2*10^{-3} Radian"));
-  l5.DrawLatex(-40,160,Form("#sigma_{#Delta#phi} = 4.5*10^{-3} Radian"));
+  l5.DrawLatex(-40,900,Form("#color[2]{mean = %.6g}",f5->GetParameter(1)));  
+  l5.DrawLatex(-40,850,Form("#color[2]{#sigma = %.6g}",f5->GetParameter(2)));       
+  l5.DrawLatex(-40,800,Form("#Lambdann"));
+  l5.DrawLatex(-40,750,Form("#sigma_{E} = 6.7*10^{-5}  GeV"));
+  l5.DrawLatex(-40,700,Form("#sigma_{Pee'} = #sigma_{Pk} = 1.0*10^{-4} GeV"));
+  l5.DrawLatex(-40,650,Form("#sigma_{#theta_{ee'}} =  #sigma_{#theta_{ek}} = 3.4*10^{-3} Radian"));
+  l5.DrawLatex(-40,600,Form("#sigma_{#Delta#phi} = 4.8*10^{-3} Radian"));
   // l5.DrawLatex(-12,80,Form("#frac{#sigma_{P_{e'}}}{P_{e'}}  = 2.5*10^{-4}  GeV"));
   // l5.DrawLatex(-12,80,Form("#frac{#sigma_{P_{k^{+}}}}{P_{k^{+}}}  = 2.5*10^{-4}  GeV"));
   //  l5.DrawLatex(-4.5,140,Form("#sigma_{#phi_{ee'} - #phi_{ek^{+}}} = 11.0*10^{-3}  Radian"));
@@ -105,7 +108,7 @@ void BE_lnn()
  //  h9->Draw();
  //  TLatex l9;
  //  l9.SetTextSize(0.025);
- //  l9.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ee'}}  = 6.0*10^{-3}  Radian"));
+ //  l9.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ee'}}  = 3.4*10^{-3}  Radian"));
   
   
  //  TCanvas *c10 =new TCanvas("c10","c10",600,600);
@@ -113,14 +116,14 @@ void BE_lnn()
  //  h10->Draw();  
  //  TLatex l10;
  //  l10.SetTextSize(0.025);
- //  l10.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ek^{+}}}  = 6.0*10^{-3}  Radian"));
+ //  l10.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ek^{+}}}  = 3.4*10^{-3}  Radian"));
   
   TCanvas *c11 =new TCanvas("c11","c11",600,600);
   c11->cd();
   h11->Draw();
   TLatex l11;
   l11.SetTextSize(0.025);
-  l11.DrawLatex(-0.5e-3,100,Form("#sigma_{#Delta#phi}  = 5.7*10^{-3}  Radian"));
+  l11.DrawLatex(-0.5e-3,100,Form("#sigma_{#Delta#phi}  = 4.8*10^{-3}  Radian"));
 
   
 }

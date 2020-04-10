@@ -1,5 +1,7 @@
 //03/20/2020
-// will read root file from MG_first.cc and then calculates the MM or binding eneygy for the 27_MG_L 
+// This read the root file ffrom the LITHIUM_first.cc and then
+// will generate the errors and will do the kinematics for the missing Mass (BE) for the lithium target
+
 //
 #include <iostream>
 #include <iomanip>
@@ -12,10 +14,10 @@
 
 using namespace std;
 
-void mg_second()
+void lithium_second()
 {
   TChain *t1 = new TChain("ktree");
-  t1->Add("./output_root/MG_first.root");
+  t1->Add("./output_root/LITHIUM_first.root");
   double ent = t1->GetEntries();
   
   double me;// Mass of electron
@@ -68,7 +70,7 @@ void mg_second()
   t1->SetBranchAddress("PHI1_2",&PHI1_2);
   
   me = 0.000511; //Mass of electron in GeV/ 
-  mt = 25.1267; //Mass of Proton GeV/
+  mt = 6.5338852; //Mass of Carbon changed
   mk = 0.4937; 
   // m_Mg = 25.3123; // GeV recoilmass for 27_MG_L
  
@@ -78,13 +80,13 @@ void mg_second()
   // sigma_theta_eep = 0.011; // rad
   // sigma_theta_ek = 0.011; // rad
   // sigma_theta_ek = 0.011; // rad
-  sigma_e = 4.3190*0.0001;
+  sigma_e = 4.3190*0.000067;
   sigma_ep = 2.218*0.0001; // GeV
   sigma_pk = 1.823*0.0001;// GeV
 
-  sigma_theta_eep = 0.0032; // rad  
-  sigma_theta_ek = 0.0032; // rad
-  sigma_phi_epk = 0.0045; // rad 
+  sigma_theta_eep = 0.0034; // rad  
+  sigma_theta_ek = 0.0034; // rad
+  sigma_phi_epk = 0.0048; // rad 
       
   double  A1; // to store some variables or the constansts
   double  B1; // to store some variables or the constansts
@@ -96,7 +98,7 @@ void mg_second()
 
   TH1F *h5 = new TH1F("h5","",50,2.0,2.4);
     
-  TFile *f2 = new TFile("./output_root/mg_second.root","recreate");
+  TFile *f2 = new TFile("./output_root/lithium_second.root","recreate");
   f2->cd();
   TTree *ttree = new TTree("ttree","generated data");
   ttree->Branch("delta_E", &delta_E,"delta_E/D");
@@ -175,8 +177,8 @@ void mg_second()
       
       MM  =sqrt(A1*A1 -(B1 - C1 - C2 + D2));
       MM = MM*1000;
-      MM = MM - 25312.3;
-      MM = MM -3.30;
+      MM = MM - 6721.2626; // changed
+    
       ttree->Fill();
       
     }

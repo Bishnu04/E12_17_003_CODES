@@ -1,5 +1,7 @@
 //03/20/2020
-// This code will read the root file from Lambda_first.cc and will calculates the MM  for Lambda by solving the kinematic equations
+//This read a root file from the CARBON_first.cc and then 
+// will generate the errors and will do the kinematics for the missing Mass
+
 //
 #include <iostream>
 #include <iomanip>
@@ -11,18 +13,13 @@
 #include <TTree.h>
 
 using namespace std;
-double RndUni(double x1,double x2)
-{
-  double Uni=gRandom->Uniform(x1,x2);
-  return Uni;
-}
 
-void lambda_second()
+void carbon_second()
 {
   TChain *t1 = new TChain("ktree");
-  t1->Add("./output_root/Lambda_first.root");
+  t1->Add("./output_root/CARBON_first.root");
   double ent = t1->GetEntries();
-
+  
   double me;// Mass of electron
   double mt; // mass of target mass
   double mk; // mass of kaon
@@ -73,24 +70,24 @@ void lambda_second()
   t1->SetBranchAddress("PHI1_2",&PHI1_2);
   
   me = 0.000511; //Mass of electron in GeV/ 
-  mt =  0.93828; //Mass of Proton GeV/
+  mt = 11.1749532; //Mass of Carbon changed
   mk = 0.4937; 
-  // ml = 1.11568; // GeV
+  // m_Mg = 25.3123; // GeV recoilmass for 27_MG_L
  
-  //  sigma_e = 4.319*0.00025; //GEV   original value
-  // sigma_ep =2.218*0.00025; // GeV
+  // sigma_e =4.319*0.00025; //GEV
+  //  sigma_ep = 2.218*0.00025; // GeV
   //sigma_pk = 1.823*0.00025;// GeV
-  //  sigma_theta_eep = 0.011; // rad
+  // sigma_theta_eep = 0.011; // rad
   // sigma_theta_ek = 0.011; // rad
-  //   sigma_phi_epk = 0.011; // rad 
-  sigma_e = 4.3190*0.0001;  ///  tets value here  
-  sigma_ep = 2.218*0.0001;
+  // sigma_theta_ek = 0.011; // rad
+  sigma_e = 4.3190*0.000067;
+  sigma_ep = 2.218*0.0001; // GeV
   sigma_pk = 1.823*0.0001;// GeV
-  
-  sigma_theta_eep = 0.0032; // rad
-  sigma_theta_ek = 0.0032; // rad
-  sigma_phi_epk = 0.0045; // rad 
-  
+
+  sigma_theta_eep = 0.0034; // rad  
+  sigma_theta_ek = 0.0034; // rad
+  sigma_phi_epk = 0.0048; // rad 
+      
   double  A1; // to store some variables or the constansts
   double  B1; // to store some variables or the constansts
   double  C1; // to store some variables or the constansts
@@ -101,7 +98,7 @@ void lambda_second()
 
   TH1F *h5 = new TH1F("h5","",50,2.0,2.4);
     
-  TFile *f2 = new TFile("./output_root/lambda_second.root","recreate");
+  TFile *f2 = new TFile("./output_root/carbon_second.root","recreate");
   f2->cd();
   TTree *ttree = new TTree("ttree","generated data");
   ttree->Branch("delta_E", &delta_E,"delta_E/D");
@@ -154,10 +151,10 @@ void lambda_second()
       theta_ek_3 = THETA_K;
       phi_epk_3 = PHI1_2;          
       
-      //// Now  include the  error or uncertainty 
+      //// Now lets include the uncertainty or include the error
       EE = EE + delta_E;     
       pep_3 = pep_3 + delta_pep;     
-      pk_3 = pk_3 + delta_pk;    
+      pk_3 = pk_3 + delta_pk;        
       
       theta_eep_3 = theta_eep_3 + delta_theta_eep;
       theta_ek_3 = theta_ek_3 + delta_theta_ek;
@@ -180,7 +177,8 @@ void lambda_second()
       
       MM  =sqrt(A1*A1 -(B1 - C1 - C2 + D2));
       MM = MM*1000;
-     
+      MM = MM - 11347.8126; // changed
+    
       ttree->Fill();
       
     }

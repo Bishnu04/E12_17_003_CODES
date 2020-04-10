@@ -1,6 +1,6 @@
 //03/20/2020
-// will read the root file from Sigma_first.cc and  then do the kinematics for the missing mass for the Signa_0 particle
-
+//will read the output from the LNN_first.cc, will calculate the missing mass (BE) for the LNN  
+// and finally will estimate the errors
 //
 #include <iostream>
 #include <iomanip>
@@ -13,10 +13,10 @@
 
 using namespace std;
 
-void sigma_second()
+void lnn_second()
 {
   TChain *t1 = new TChain("ktree");
-  t1->Add("./output_root/SIGMA_first.root");
+  t1->Add("./output_root/LNN_first.root");
   double ent = t1->GetEntries();
   
   double me;// Mass of electron
@@ -69,29 +69,36 @@ void sigma_second()
   t1->SetBranchAddress("PHI1_2",&PHI1_2);
   
   me = 0.000511; //Mass of electron in GeV/ 
-  mt =  0.93828; //Mass of Proton GeV/
+  mt = 2.808921; //Mass of Proton GeV/
   mk = 0.4937; 
   // ml = 1.11568; // GeV
  
-  sigma_e = 0.0004; //GEV  
-  sigma_ep = 0.0002218; // GeV
-  sigma_pk = 0.0001823;// GeV
-
-  sigma_theta_eep = 0.003; // rad
-  sigma_theta_ek = 0.003; // rad
-  sigma_phi_epk = 0.003; // rad 
+  //  sigma_e = 4.319*0.00025; //GEV
+  // sigma_ep = 2.218*0.00025; // GeV
+  //  sigma_pk = 1.823*0.00025;// GeV
+  //sigma_theta_eep = 0.011; // rad
+  //sigma_theta_ek = 0.003; // rad
+  // sigma_phi_epk = 0.003; // rad
+  
+  sigma_e =  4.319*0.000067;
+  sigma_ep = 2.218*0.0001; // GeV
+  sigma_pk = 1.823*0.0001;// GeV
+  
+  sigma_theta_eep = 0.0034; // rad  
+  sigma_theta_ek = 0.0034; // rad
+  sigma_phi_epk = 0.0048; // rad 
       
   double  A1; // to store some variables or the constansts
   double  B1; // to store some variables or the constansts
   double  C1; // to store some variables or the constansts
-  double  C2;
+  double  C2;//
   double  D1;
   double  D2;
   double  MM; //missing mass
 
   TH1F *h5 = new TH1F("h5","",50,2.0,2.4);
     
-  TFile *f2 = new TFile("./output_root/sigma_second.root","recreate");
+  TFile *f2 = new TFile("./output_root/lnn_second.root","recreate");
   f2->cd();
   TTree *ttree = new TTree("ttree","generated data");
   ttree->Branch("delta_E", &delta_E,"delta_E/D");
@@ -144,15 +151,14 @@ void sigma_second()
       theta_ek_3 = THETA_K;
       phi_epk_3 = PHI1_2;          
       
-      //// Now with the error included
+      //// Now include the uncertainty or include the error
       EE = EE + delta_E;     
-      // pep_3 = pep_3 + delta_pep;     
-      // pk_3 = pk_3 + delta_pk;   
+      pep_3 = pep_3 + delta_pep;     
+      pk_3 = pk_3 + delta_pk;       
       
-      
-       // theta_eep_3 = theta_ep_3 + delta_theta_eep;
-       // theta_ek_3 = theta_ek_3 + delta_theta_ek;
-       // phi_epk_3 = phi_epk_3 + delta_phi_epk
+      theta_eep_3 = theta_eep_3 + delta_theta_eep;
+      theta_ek_3 = theta_ek_3 + delta_theta_ek;
+      phi_epk_3 = phi_epk_3 + delta_phi_epk;
       
        
        pe_1 = sqrt(EE*EE - me*me);     
@@ -171,6 +177,7 @@ void sigma_second()
       
       MM  =sqrt(A1*A1 -(B1 - C1 - C2 + D2));
       MM = MM*1000;
+      MM = MM - 2994.814;
      
       ttree->Fill();
       

@@ -1,7 +1,10 @@
 // 02/12/2020
 // monte caro study
 // Author Bishnu
-// will output some parameter like beam energy, hrs momentum and angles in the form of a rootfile
+// This is the first code for Sigma_0 will out put some parameters like  beam energy, hrs momentum and hrs angles in
+//theform of a root file. 
+
+// Hydrogen as target and Sigma_0 as recoil
 
 //#include <cmath>
 #include <iostream>
@@ -20,12 +23,12 @@ double RndUni(double x1,double x2)
   return Uni;
 }
 
-void Lambda_first()
+void Sigma_first()
 {
   double me;// Mass of electron
   double mt; //target mass which is the proton mass
   double mk; // mass of kaon
-  double ml;// mass of Lambda .. recoil mass
+  double ms;// mass of Sigma .. recoil mass
 
   double E_b; // beam energy
   double pep_0;// lhrs central momentum
@@ -65,7 +68,7 @@ void Lambda_first()
   me = 0.000511; //Mass of electron in GeV/ 
   mt =  0.93828; //Mass of Proton GeV/ target mass
   mk = 0.4937; 
-  ml = 1.11568; // GeV recoil mass which is the Lambda mass
+  ms = 1.19264; // GeV recoil mass which is the Sigma mass
 
   E_b = 4.319;// BEam energy in GeV  
   pep_0 = 2.218;  // need to be updated later
@@ -89,7 +92,7 @@ void Lambda_first()
   gRandom->SetSeed(65539);
   gStyle->SetTitle("");
   
-  TFile *f1 = new TFile("./output_root/Lambda_first.root","recreate");
+  TFile *f1 = new TFile("./output_root/Sigma_first.root","recreate");
   f1->cd();
   
   TTree *ktree = new TTree("ktree","generated data");
@@ -115,18 +118,18 @@ void Lambda_first()
       THETA_K = RndUni(thetak_0_min,thetak_0_max);
       PHI1_2 = RndUni(ph12_0_min,ph12_0_max);
 
-      if(pep_1>2.111 && pep_1<2.245)
+      if(pep_1>2.118 && pep_1<2.118216)///2.111 && pep_1<2.245
 	{pep=pep_1;} /// on March 26
       
       Eep = sqrt(pep*pep + me*me);
       a =(E_b+mt-Eep);
       p_b = sqrt(E_b*E_b -me*me);
-      A=(a*a + mk*mk - ml*ml - p_b*p_b - pep*pep + 2*p_b*pep*TMath::Cos(THETA_EP))/(2*a);
+      A=(a*a + mk*mk - ms*ms - p_b*p_b - pep*pep + 2*p_b*pep*TMath::Cos(THETA_EP))/(2*a);
       A1 = TMath::Cos(THETA_EP)*TMath::Cos(THETA_K) + TMath::Sin(THETA_EP)*TMath::Sin(THETA_K)*TMath::Cos(PHI1_2);//= cos(theta_e'k)
       ////  B= (p_b*TMath::Cos(THETA_K) - pep*TMath::Cos(THETA_EP+THETA_K))/a;
       B= (p_b*TMath::Cos(THETA_K) - pep*A1)/a;
       pk = (-A*B -sqrt(A*A*B*B - (B*B - 1)*(A*A - mk*mk)))/(B*B -1);// + sign infront of sqrt does not work
-      if(pk>1.733 && pk<1.877) // updated on March 26 2020
+      if(pk>1.733 && pk<1.87) // pk>1.733 && pk<1.877
 	{P_K = pk;}
       
       ktree->Fill();     

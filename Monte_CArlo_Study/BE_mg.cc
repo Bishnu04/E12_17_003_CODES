@@ -1,5 +1,7 @@
 //copied from MM_all.cc
-//This code wil read the rootfile from mg_second.cc and then will plot the BE for 27_Mg_L histogram
+//This code wil read the rootfile from mg_second.cc and then will plot the histogram for 27_Mg_L
+
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -76,7 +78,9 @@ void BE_mg()
 
   
   TF1 *f5 = new TF1("f5","gaus",-4.8,-1.7);
-  TCanvas *c5 =new TCanvas("c5","c5",600,600);
+  TCanvas *c5 =new TCanvas("c5","c5");
+  c5->SetCanvasSize(1300, 1050);// selected for publication
+  c5->SetWindowSize(800, 800);  
   c5->cd();
   h5->Draw();
   f5->SetLineWidth(2);
@@ -85,13 +89,13 @@ void BE_mg()
   TLatex l5;
   l5.SetTextSize(0.025);
   
-  l5.DrawLatex(-20,250,Form("#color[2]{mean = %.6g}",f5->GetParameter(1)));  
-  l5.DrawLatex(-20,220,Form("#color[2]{#sigma = %.6g}",f5->GetParameter(2)));       
-  l5.DrawLatex(-20,190,Form("^{27}Mg_{#Lambda}"));
-  l5.DrawLatex(-20,160,Form("#sigma_{E} = 1.0*10^{-4}  GeV"));
-  l5.DrawLatex(-20,130,Form("#sigma_{Pee'},#sigma_{Pk} = 1.0*10^{-4}  GeV"));
-  l5.DrawLatex(-20,100,Form("#sigma_{#theta_{ee'}},#sigma_{#theta_{ek}} = 3.2*10^{-3} Radian"));
-  l5.DrawLatex(-20,70,Form("#sigma_{#Delta#phi} = 4.5*10^{-3} Radian")); 
+  l5.DrawLatex(-20,740,Form("#color[2]{mean = %.6g}",f5->GetParameter(1)));  
+  l5.DrawLatex(-20,700,Form("#color[2]{#sigma = %.6g}",f5->GetParameter(2)));       
+  l5.DrawLatex(-20,660,Form("^{27}Mg_{#Lambda}"));
+  l5.DrawLatex(-20,620,Form("#sigma_{E} = 6.7*10^{-5}  GeV"));
+  l5.DrawLatex(-20,580,Form("#sigma_{Pee'} = #sigma_{Pk} = 1.0*10^{-4}  GeV"));
+  l5.DrawLatex(-20,540,Form("#sigma_{#theta_{ee'}} = #sigma_{#theta_{ek}} = 3.4*10^{-3} Radian"));
+  l5.DrawLatex(-20,500,Form("#sigma_{#Delta#phi} = 4.8*10^{-3} Radian")); 
   //l5.DrawLatex(-12,80,Form("#frac{#sigma_{P_{k^{+}}}}{P_{k^{+}}}  = 2.5*10^{-4}  GeV"));
   //  l5.DrawLatex(-3.8,160,Form("#sigma_{#phi_{ee'} -#phi_{ek^{+}}} = 11.0*10^{-3}  Radian"));
 
@@ -107,7 +111,7 @@ void BE_mg()
   h9->Draw();
   TLatex l9;
   l9.SetTextSize(0.025);
-  l9.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ee'}}  = 6.0*10^{-3}  Radian"));
+  l9.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ee'}}  = 3.4*10^{-3}  Radian"));
   
   
   TCanvas *c10 =new TCanvas("c10","c10",600,600);
@@ -115,14 +119,14 @@ void BE_mg()
   h10->Draw();  
   TLatex l10;
   l10.SetTextSize(0.025);
-  l10.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ek^{+}}}  = 6.0*10^{-3}  Radian"));
+  l10.DrawLatex(-0.5e-3,100,Form("#sigma_{#theta_{ek^{+}}}  = 3.4*10^{-3}  Radian"));
   
   TCanvas *c11 =new TCanvas("c11","c11",600,600);
   c11->cd();
   h11->Draw();
   TLatex l11;
   l11.SetTextSize(0.025);
-  l11.DrawLatex(-0.5e-3,100,Form("#sigma_{#Delta#phi}  = 9.0*10^{-3}  Radian"));
+  l11.DrawLatex(-0.5e-3,100,Form("#sigma_{#Delta#phi}  = 4.8*10^{-3}  Radian"));
 
   
   

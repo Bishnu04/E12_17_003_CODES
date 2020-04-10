@@ -1,6 +1,7 @@
 //03/27/2020
 // This code is to find the correlation between the sigma and A(A=1, A=3 and A=27)
 // The code is the part of the Monte carlo simulation
+// Code is written when the plotting the different uncertainties together
 
 void Two_dim()
 {

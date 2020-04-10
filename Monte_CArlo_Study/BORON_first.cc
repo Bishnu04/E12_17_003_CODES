@@ -1,7 +1,9 @@
-// 02/12/2020
+// 4/5/2020
 // monte caro study
 // Author Bishnu
-// will produce theout put parameter like  beam energy, hrs momentum and angles for the tritium target
+////This code will output some parameters like energy, hrs momentum and that of angles in the form of root file
+// the Boron target and 10Be_Lambda as output
+
 //#include <cmath>
 #include <iostream>
 #include <iomanip>
@@ -19,12 +21,12 @@ double RndUni(double x1,double x2)
   return Uni;
 }
 
-void LNN_first()
+void BORON_first()
 {
   double me;// Mass of electron
-  double mt; // mass of target (tritium target)
+  double mt; // mass of target (Aluminum target)
   double mk; // mass of kaon
-  double m_T;// mass of nnL  recoil mass
+  double m_BO;// mass of  10Be_L recoil mass
 
   double E_b; // beam energy
   double pep_0;// lhrs central momentum
@@ -62,9 +64,9 @@ void LNN_first()
   cout<<"hello world"<<endl;
  
   me = 0.000511; //Mass of electron in GeV/ 
-  mt = 2.808921; // GeV tritium target by Gogami
+  mt = 9.324511; // GeV Boron target
   mk = 0.4937;  
-  m_T = 2.994814; // GeV   recoil mass nnL mass
+  m_BO = 9.5085004; // GeV   recoil mass 27_MG_L mass
  
 
   E_b = 4.319;// BEam energy in GeV  
@@ -89,7 +91,7 @@ void LNN_first()
   gRandom->SetSeed(65539);
   gStyle->SetTitle("");
   
-  TFile *f1 = new TFile("./output_root/LNN_first.root","recreate");
+  TFile *f1 = new TFile("./output_root/BORON_first.root","recreate");
   f1->cd();
   
   TTree *ktree = new TTree("ktree","generated data");
@@ -116,7 +118,7 @@ void LNN_first()
       Eep = sqrt(pep*pep + me*me);
       a =(E_b+mt-Eep);
       p_b = sqrt(E_b*E_b -me*me);
-      A=(a*a + mk*mk - m_T*m_T - p_b*p_b - pep*pep + 2*p_b*pep*TMath::Cos(THETA_EP))/(2*a);
+      A=(a*a + mk*mk - m_BO*m_BO - p_b*p_b - pep*pep + 2*p_b*pep*TMath::Cos(THETA_EP))/(2*a);
       A1 = TMath::Cos(THETA_EP)*TMath::Cos(THETA_K) + TMath::Sin(THETA_EP)*TMath::Sin(THETA_K)*TMath::Cos(PHI1_2);// cos(theta_e'k)
       ////  B= (p_b*TMath::Cos(THETA_K) - pep*TMath::Cos(THETA_EP+THETA_K))/a;
       B= (p_b*TMath::Cos(THETA_K) - pep*A1)/a;
