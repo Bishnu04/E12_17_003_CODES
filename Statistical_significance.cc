@@ -19,7 +19,7 @@ Note: I defined some polynomials in this code they are just to draw thw quasi fr
 relation with the statistical significance study
 */
 
-void statistical_significance()
+void Statistical_significance()
 {
   
   //// for the data for which Al involved in tune
